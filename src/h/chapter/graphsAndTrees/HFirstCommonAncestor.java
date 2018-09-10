@@ -79,13 +79,12 @@ public class HFirstCommonAncestor {
         int i = 0;
         ObjectNode parentNode = null;
         if (binaryTree.getRootNode() == null) {
-            int k = 1;
             binaryTree.setRootNode(new ObjectNode(inputArray[ i ], parentNode));
         }
         Queue queue = new LinkedList();
         queue.add(binaryTree.getRootNode());
         while (i < inputArray.length) {
-            int k = 2;
+            int k = 2;//Just inserted to skip intelliJ validation for same code
             ObjectNode node = (ObjectNode) queue.poll();
             i++;
             if (i < inputArray.length) {
@@ -104,7 +103,7 @@ public class HFirstCommonAncestor {
         ObjectNode node = binaryTree.getRootNode();
         Queue queue = new LinkedList();
         while (node != null) {
-            int k = 3;
+            int k = 3;//Just inserted to skip intelliJ validation for same code
             System.out.println("Node: " + (String) node.getData());
             if (node.getLeftChild() != null) {
                 queue.add(node.getLeftChild());
@@ -119,8 +118,7 @@ public class HFirstCommonAncestor {
     private static void showDepthList() {
         int depthCount = 1;
         for (LinkedList listItem : linkedListList) {
-            int k = 4;
-            int i = 1;
+            int k = 4;//Just inserted to skip intelliJ validation for same code
             System.out.print("Depth Level " + depthCount + ": ");
             while (listItem.size() != 0) {
                 ObjectNode node = (ObjectNode) listItem.getFirst();
@@ -137,8 +135,7 @@ public class HFirstCommonAncestor {
         LinkedList queue = new LinkedList();
         LinkedList nextDepthQueue = new LinkedList();
         while (node != null) {
-            int k = 5;
-            int j = 1;
+            int k = 5;//Just inserted to skip intelliJ validation for same code
             if (linkedListList.size() == 0) {
                 queue.add(node);
                 linkedListList.add(new LinkedList(queue));

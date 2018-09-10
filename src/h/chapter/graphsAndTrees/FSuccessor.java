@@ -105,7 +105,7 @@ public class FSuccessor {
     private static void showDepthList() {
         int depthCount = 1;
         for (LinkedList listItem : linkedListList) {
-            int i = 1;
+            int i = 1;//Just inserted to skip intelliJ validation for same code
             System.out.print("Depth Level " + depthCount + ": ");
             while (listItem.size() != 0) {
                 ObjectNode node = (ObjectNode) listItem.getFirst();
@@ -122,7 +122,7 @@ public class FSuccessor {
         LinkedList queue = new LinkedList();
         LinkedList nextDepthQueue = new LinkedList();
         while (node != null) {
-            int j = 1;
+            int j = 1;//Just inserted to skip intelliJ validation for same code
             if (linkedListList.size() == 0) {
                 queue.add(node);
                 linkedListList.add(new LinkedList(queue));

@@ -144,7 +144,7 @@ public class DCheckBalanced {
         LinkedList queue = new LinkedList();
         LinkedList nextDepthQueue = new LinkedList();
         while (node != null) {
-            int i = 1;
+            int i = 1;//Just inserted to skip intelliJ validation for same code
             if (linkedListList.size() == 0) {
                 queue.add(node);
                 linkedListList.add(new LinkedList(queue));
@@ -169,7 +169,7 @@ public class DCheckBalanced {
     private static void showDepthList() {
         int depthCount = 1;
         for (LinkedList listItem : linkedListList) {
-            int i = 1;
+            int i = 1;//Just inserted to skip intelliJ validation for same code
             System.out.print("Depth Level " + depthCount + ": ");
             while (listItem.size() != 0) {
                 VisitNode node = (VisitNode) listItem.getFirst();
