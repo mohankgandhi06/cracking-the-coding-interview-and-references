@@ -27,7 +27,8 @@ public class CFinalFinallyFinalize {
         /* This will be called just before the garbage collection */
         /* Note: This method is deprecated from Java 9 onwards */
         System.out.println();
-        ToExplainFinalize spiderman = new ToExplainFinalize("I don't want to die...");
+        System.out.println("Avenger's Infinity war spoiler's ahead:  ");
+        ToExplainFinalize spiderman = new ToExplainFinalize("Spiderman: I don't want to die...");
         spiderman = null;
         System.gc();
     }
@@ -45,7 +46,6 @@ class ToExplainFinalize {
     }
 
     public void finalize() {
-        System.out.println("Just before the object goes into Garbage Collection, I was used to be called to perform any final rituals using the object like transferring the computed value");
-        System.out.println("Final Words: " + this.getMessage());
+        System.out.println("Just before the object goes into Garbage Collection, I was used to be called to perform any final rituals using the object like transferring the computed value. \n\nFinal Words from the Object: \n" + this.getMessage());
     }
 }
