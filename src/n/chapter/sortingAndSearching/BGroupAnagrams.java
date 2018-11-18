@@ -9,6 +9,15 @@ public class BGroupAnagrams {
     /* Group Anagrams
     Question: Write a method to sort an array of strings so that all the anagrams are next to each other. */
 
+    /* Algorithm Followed:
+     * 1) Create a Letter based Map <String, Integer> such that the Alphabet character
+     * is mapped to a unique prime number.
+     * 2) Now the String Array is taken and for each of the array element we take the
+     * alphabet wise hashkey from the map created above and multiply them to get a unique key
+     * and check if the map is null in that location. If not null then the linked list
+     * is added with the new value. If null then a new linked list is created
+     * 3) Finally the map is iterated and the values are stored in a String array */
+
     public static HashMap<String, Integer> letterHash;
     public static HashMap<Integer, LinkedList> resultMap = new HashMap();
 
