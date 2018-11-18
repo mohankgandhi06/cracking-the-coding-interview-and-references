@@ -5,6 +5,20 @@ public class ASortedMerge {
     Question: You are given two sorted arrays, A and B, where A has large enough buffer at the end to hold B.
     Write a method to merge B into A in sorted order. */
 
+    /* Algorithm Followed:
+     * 1) We have to continue to compare till the B array is completely compared
+     * 2) Use "i" for Array A and "j" for Array B. Compare Array A's ith element
+     * with Array B's jth element till the element of Array A is greater than
+     * the Array B. If the whole of Array A is compared till the empty locations 0
+     * are reached. If it is reached then it means that all the Array B's elements are
+     * greater than the Array A and so they can be copied as it is in the remaining
+     * locations.
+     * 3) When the Array A's element is greater than the Array B's element then the
+     * value of A is saved to a temp variable and then the Array B's element is placed
+     * in the A's position. Now each element of the Array B is checked and moved left
+     * until the correct sorted place arrives for the temp variable. Then the process
+     * is repeated */
+
     public static void main(String[] args) {
         //Input 1:
         /*int[] arrayA = new int[]{1, 4, 6, 8, 10, 12, 0, 0, 0, 0, 0, 0};
