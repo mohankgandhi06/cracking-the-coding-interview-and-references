@@ -12,14 +12,43 @@ public class HLoopDetection {
         list.corruptIt('C', 'L');
         showList(list);
         CharacterNode node = detectTheLoopsStartingNode(list);
-        if (node!=null){
-            System.out.println("Corrupted Node Found:" +node.getData());
+        if (node != null) {
+            System.out.println("Corrupted Node Found: " + node.getData());
         } else {
             System.out.println("List is not corrupted");
         }
     }
 
+    /* Optimal Implementation */
+    private static CharacterNode detectTheLoopStartingNodeOptimal(CharacterNode node) {
+        /* Like a car in a race track going in laps. even though they may be of different speed
+         * they will meet at a point in the circle. We don't know the start of the loop and whether
+         * the list is a loop in the first place. So we are launching two list using runner technique
+         * to find out if they both collide. One is going one step while other goes two step at a time
+         * 1) When the slow node enters the loop the fast loop will be k nodes ahead of it.
+         * 2) When they meet they will be k nodes away from the start of the loop */
+        CharacterNode slow = node;
+        CharacterNode fast = node;
+        while (fast != null && fast.getNext() != null) {
+            slow = slow.getNext();
+            fast = fast.getNext().getNext();
+        }
+        if (fast == null || fast.getNext() == null) {//No Loop found
+            return null;
+        }
+        slow = node;
+        while (slow != fast) {
+            slow = slow.getNext();
+            fast = fast.getNext();
+        }
+        return fast;
+    }
+
+    /* Earlier Implementations */
     public static CharacterNode detectTheLoopsStartingNode(CorruptLinkedList list) {
+        /* In this implementation we are actually checking the data to find out the loop
+         * But actually we should have compared the reference. Other than that this algorithm
+         * requires a hashtable to be maintained and what if the character are not A, B, C alone */
         char[] table = new char[ 26 ];
         CharacterNode node = list.getHead();
         while (node.getNext() != null) {

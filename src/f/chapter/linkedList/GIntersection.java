@@ -9,24 +9,36 @@ public class GIntersection {
     * */
 
     public static void main(String[] args) {
-        SingleNode node = new SingleNode(99);
+        SingleNode node = new SingleNode(7);
         SinglyLinkedList listOne = new SinglyLinkedList();
-        listOne.insert(6);
+        listOne.insert(3);
+        listOne.insert(1);
         listOne.insert(5);
-        listOne.insert(22);
-        listOne.insert(14);
-        listOne.insert(4);
+        listOne.insert(9);
         listOne.insert(node);
-        listOne.insert(56);
-        listOne.insert(23);
+        listOne.insert(2);
 
         SinglyLinkedList listTwo = new SinglyLinkedList();
+        listTwo.insert(4);
         listTwo.insert(6);
-        listTwo.insert(5);
-        listTwo.insert(22);
         listTwo.insert(node);
-        listOne.insert(14);
-        listOne.insert(56);
+        listTwo.insert(1);
+
+        /*//Two separate lists
+        SinglyLinkedList listOne = new SinglyLinkedList();
+        listOne.insert(3);
+        listOne.insert(1);
+        listOne.insert(5);
+        listOne.insert(9);
+        listOne.insert(7);
+        listOne.insert(2);
+
+        SinglyLinkedList listTwo = new SinglyLinkedList();
+        listTwo.insert(4);
+        listTwo.insert(6);
+        listTwo.insert(7);
+        listTwo.insert(1);*/
+
         System.out.println("List One: ");
         showList(listOne);
         System.out.println("List Two: ");
@@ -34,7 +46,7 @@ public class GIntersection {
         //If you check the node with the value 99 here it is considered "intersecting" since even though
         // we inserted two additional in two separate lists (listOne and listTwo). When to try to show the list it is
         // fetching combined four values which has been inserted after it.
-        SingleNode intersection = intersection(listOne, listTwo);
+        SingleNode intersection = intersectionOptimal(listOne, listTwo);
         if (intersection == null) {
             System.out.println("No Match");
         } else {
@@ -42,12 +54,58 @@ public class GIntersection {
         }
     }
 
+    /* Optimal Implementations */
+    private static SingleNode intersectionOptimal(SinglyLinkedList listOne, SinglyLinkedList listTwo) {
+        if (listOne == null || listTwo == null) {
+            return null;
+        }
+        TailAndSize one = getTailAndSize(listOne.getHead());
+        TailAndSize two = getTailAndSize(listTwo.getHead());
+
+        /* If the tail of two list is not same then absolutely there is no chance of intersection
+         * So we can return by checking for this */
+        if (one.node != two.node) {
+            return null;
+        }
+
+        SingleNode longer = one.size > two.size ? listOne.getHead() : listTwo.getHead();
+        SingleNode shorter = one.size > two.size ? listTwo.getHead() : listOne.getHead();
+        int chopOffCount = Math.abs(one.size - two.size);
+        longer = chopOff(longer, chopOffCount);
+        while (shorter != longer) {
+            shorter = shorter.getNext();
+            longer = longer.getNext();
+        }
+        return longer;
+    }
+
+    private static TailAndSize getTailAndSize(SingleNode node) {
+        if (node == null) return null;
+        int count = 1;
+        SingleNode head = node;
+        while (head.getNext() != null) {
+            count++;
+            head = head.getNext();
+        }
+        return new TailAndSize(head, count);
+    }
+
+    private static SingleNode chopOff(SingleNode longer, int chopOffCount) {
+        while (chopOffCount > 0 && longer != null) {
+            longer = longer.getNext();
+            chopOffCount--;
+        }
+        return longer;
+    }
+
+    /* Earlier Implementations */
     public static SingleNode intersection(SinglyLinkedList listOne, SinglyLinkedList listTwo) {
         SingleNode nodeOne = listOne.getHead();
         while (nodeOne.getNext() != null) {
             SingleNode nodeTwo = listTwo.getHead();
             while (nodeTwo.getNext() != null) {
                 if (nodeOne.getNext() == nodeTwo.getNext()) {
+                    //We are checking if they are pointing to same address location
                     return nodeOne.getNext();
                 }
                 nodeTwo = nodeTwo.getNext();
@@ -126,5 +184,19 @@ class SingleNode {
 
     public void setNext(SingleNode next) {
         this.next = next;
+    }
+}
+
+class TailAndSize {
+    public SingleNode node;
+    public int size;
+
+    public TailAndSize() {
+
+    }
+
+    public TailAndSize(SingleNode node, int size) {
+        this.node = node;
+        this.size = size;
     }
 }

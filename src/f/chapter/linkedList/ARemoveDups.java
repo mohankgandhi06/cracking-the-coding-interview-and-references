@@ -5,6 +5,10 @@ import f.chapter.linkedList.utils.NodeSingle;
 
 public class ARemoveDups {
 
+    /* Question: Write a code to remove duplicates from an unsorted linked list
+     * FOLLOW UP
+     * How would you solve this problem if a temporary buffer is not allowed? */
+
     public static void main(String[] args) {
 
         NodeSingle head = LinkedListUtils.prepareSinglyLinkedList(new String[]{"6007", "5008", "3468", "6007", "1987", "1986", "3468", "5102"});
@@ -24,6 +28,26 @@ public class ARemoveDups {
         }
     }
 
+    /* Optimal Implementation */
+    public static void removeDuplicatesOptimal(NodeSingle head) {
+        /* This is just same as the removeDuplicatesUsingNormalComparison(). Earlier I had thought that since the
+         * singly linked list cannot be moved backwards there was a need to maintain previous node temporarily
+         * each time and so that implementation was a little complex */
+        NodeSingle node = head;
+        while (node != null) {
+            NodeSingle runner = node;
+            while (runner.next != null) {
+                if (node.getValue() == runner.next.getValue()) {
+                    runner.next = runner.next.next;
+                } else {
+                    runner = runner.next;
+                }
+            }
+            node = node.next;
+        }
+    }
+
+    /* Earlier Implementations */
     public static void removeDuplicatesUsingNormalComparison(NodeSingle head) {
         NodeSingle node = head.next;
         NodeSingle nodeToBeCompared = node.next;
@@ -51,6 +75,9 @@ public class ARemoveDups {
     }
 
     public static void removeDuplicatesUsingHashTable(NodeSingle head) {
+        /* In the solution they have implemented using the Java in-built hashtable and since i tried
+         * with the hashtable implementation myself it looks long. also as stated earlier I had thought the previous
+         * node needs to be maintained every check. */
         NodeSingle node = head.next;
         NodeSingle nodeWhosNextIsToBeReplaced = head;
         Table table = new Table("30");
@@ -124,6 +151,10 @@ class Table {
 class Node {
     private int value;
     private Node next;
+
+    public Node() {
+
+    }
 
     public Node(int value) {
         this.value = value;

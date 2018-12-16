@@ -1,5 +1,7 @@
 package f.chapter.linkedList;
 
+import java.util.Stack;
+
 public class FPalindrome {
     /* Question:
      Palindrome: Implement a function to check if the linked list is a palindrome */
@@ -10,10 +12,11 @@ public class FPalindrome {
         //Modify your input here
         //String inputString = "madam";
         //String inputString = "olive";
-        String inputString = "loiol";
+        /*String inputString = "loiol";*/
         //String inputString = "dassuttttttussad";
-        //String inputString = "dassutttttttussad";
+        String inputString = "dassasd";
         inputLength = inputString.length();
+        /*
         LinkedStringList list = new LinkedStringList(inputString.toLowerCase());
         LinkedNode node = list.getHead().getNext();
         while (node != null) {
@@ -21,9 +24,114 @@ public class FPalindrome {
             node = node.getNext();
         }
         System.out.println("Is the List " + inputString + " a Palindrome: " + isPalindrome(list.getHead()));
+        */
+        LinkedStringList list = new LinkedStringList(inputString.toLowerCase(), "reverseAndCompare");
+        LinkedNode node = list.getHead();
+        while (node != null) {
+            System.out.println("- " + node.getData());
+            node = node.getNext();
+        }
+        /*System.out.println("Is the List " + inputString + " a Palindrome: " + isPalindromeReverseAndCompare(list.getHead()));*/
+        /*System.out.println("Is the List " + inputString + " a Palindrome: " + isPalindromeIterative(list.getHead()));*/
+        System.out.println("Is the List " + inputString + " a Palindrome: " + isPalindromeRecursive(list.getHead()));
     }
 
+    /* Optimal Implementations */
+    /* Reverse and Compare */
+    private static boolean isPalindromeReverseAndCompare(LinkedNode head) {
+        LinkedNode reverse = reverse(head);
+        return isPalindromeUsingReverseAndCompare(head, reverse);
+    }
+
+    private static LinkedNode reverse(LinkedNode node) {
+        LinkedNode head = null;
+        while (node != null) {
+            LinkedNode n = new LinkedNode(node.getData());
+            n.setNext(head);
+            head = n;
+            node = node.getNext();
+        }
+        return head;
+    }
+
+    private static boolean isPalindromeUsingReverseAndCompare(LinkedNode head, LinkedNode reverse) {
+        while (head != null && reverse != null) {
+            if (Character.valueOf(head.getData().charAt(0)) != Character.valueOf(reverse.getData().charAt(0))) {
+                return false;
+            }
+            head = head.getNext();
+            reverse = reverse.getNext();
+        }
+        return head == null && reverse == null;
+    }
+
+    /* Iterative */
+    private static boolean isPalindromeIterative(LinkedNode head) {
+        /* In the above method we are iterating through the whole linked list. This can be reduced to half of the length.
+         * If we know the size of it then we can create a stack with only half the length and compare the other half directly
+         * if not we can use the runner technique one will jump two steps than the other. Once the fast reach the end
+         * we start with the stack comparing the rest of the linked list */
+        LinkedNode slow = head;
+        LinkedNode fast = head;
+        Stack<Character> stack = new Stack<>();
+        while (fast != null && fast.getNext() != null) {
+            stack.push(Character.valueOf(slow.getData().charAt(0)));
+            slow = slow.getNext();
+            fast = fast.getNext().getNext();
+        }
+        if (fast != null) {//Skipping the middle term for odd number of elements
+            slow = slow.getNext();
+        }
+        while (slow != null) {
+            if (slow.getData().charAt(0) != stack.pop()) {
+                return false;
+            }
+            slow = slow.getNext();
+        }
+        return true;
+    }
+
+    /* Recursive */
+    private static boolean isPalindromeRecursive(LinkedNode head) {
+        int length = getLength(head);
+        Result result = isPalindromeRecursiveCall(head, length);
+        return result.isPalindrome;
+    }
+
+    private static int getLength(LinkedNode head) {
+        int count = 0;
+        while (head != null) {
+            count++;
+            head = head.getNext();
+        }
+        return count;
+    }
+
+    private static Result isPalindromeRecursiveCall(LinkedNode node, int length) {
+        if (node == null || length <= 0) {
+            return new Result(node, true);
+        } else if (length == 1) {
+            return new Result(node.getNext(), true);
+        }
+
+        Result result = isPalindromeRecursiveCall(node.getNext(), length - 2);
+
+        if (!result.isPalindrome || result.node == null) {
+            return result;
+        }
+
+        result.isPalindrome = Character.valueOf(node.getData().charAt(0)) == Character.valueOf(result.node.getData().charAt(0));
+        result.node = result.node.getNext();
+
+        return result;
+    }
+
+    /* Earlier Implementations */
     public static boolean isPalindrome(LinkedNode head) {
+        /* Using Hashtable we are iterating through the linked list and saving the location
+         * and the value until we iterate all the elements. Once we have gone through the
+         * list each hashtable it iterated in turn to determine if the position is proper in order to
+         * be a palindrome. */
         HashTable hashTable = new HashTable("26");
         hashTable.inputLength = inputLength;
         LinkedNode node = head.getNext();
@@ -127,12 +235,35 @@ class LinkedStringList {
         }
     }
 
+    public LinkedStringList(String inputString, String mode) {
+        if (mode.equalsIgnoreCase("reverseAndCompare")) {
+            for (int i = 0; i < inputString.length(); i++) {
+                if (this.head == null) {
+                    String datum = String.valueOf(inputString.charAt(i));
+                    head = new LinkedNode(datum);
+                    continue;
+                }
+                insert(String.valueOf(inputString.charAt(i)), this.head, mode);
+            }
+        }
+    }
+
     public void insert(String data, LinkedNode head) {
         LinkedNode node = head;
         while (node.getNext() != null) {
             node = node.getNext();
         }
         node.setNext(new LinkedNode(data));
+    }
+
+    public void insert(String data, LinkedNode head, String mode) {
+        if (mode.equalsIgnoreCase("reverseAndCompare")) {
+            LinkedNode node = head;
+            while (node.getNext() != null) {
+                node = node.getNext();
+            }
+            node.setNext(new LinkedNode(data));
+        }
     }
 
     public LinkedNode getHead() {
@@ -144,9 +275,18 @@ class LinkedNode {
     private String data;
     private LinkedNode next;
 
+    public LinkedNode() {
+
+
+    }
+
     public LinkedNode(String data) {
         this.data = data;
         this.next = null;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getData() {
@@ -210,5 +350,15 @@ class TableNode {
 
     public void setNext(TableNode next) {
         this.next = next;
+    }
+}
+
+class Result {
+    public LinkedNode node;
+    public boolean isPalindrome;
+
+    public Result(LinkedNode node, boolean isPalindrome) {
+        this.node = node;
+        this.isPalindrome = isPalindrome;
     }
 }
