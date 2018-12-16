@@ -3,12 +3,38 @@ package e.chapter.stringArray;
 import java.util.Arrays;
 
 public class BCheckPermutations {
+    /* Question: Given two strings, write a method
+    to decide if one is a permutation of the other. */
+
     public static void main(String[] args) {
         //usingString("bsc","cbs");
         //usingArray("s", "s");
         usingHashTable("omid", "m odi");
     }
 
+    /* Optimal Solution */
+    private static void usingBucket(String inputString, String checkThisWithInputString) {
+        if (inputString.length() != checkThisWithInputString.length()) {
+            System.out.println("Not a Permutation");
+            return;
+        }
+        int[] characterBucket = new int[ 128 ];
+        char[] array = inputString.toCharArray();
+        for (char c : array) {
+            characterBucket[ c ]++;
+        }
+        for (int i = 0; i < checkThisWithInputString.length(); i++) {
+            int character = checkThisWithInputString.charAt(i);
+            characterBucket[ character ]--;
+            if (characterBucket[ character ] < 0) {
+                System.out.println("Not a Permutation");
+                return;
+            }
+        }
+        System.out.println("Permutation");
+    }
+
+    /* Earlier Implementations */
     public static void usingHashTable(String inputString, String checkThisWithInputString) {
         String input = inputString.toLowerCase();
         HashTable table = new HashTable("26");
@@ -61,6 +87,10 @@ public class BCheckPermutations {
     }
 
     public static void usingArray(String inputString, String checkThisWithInputString) {
+        /* Directly we are sorting the arrays and then comparing the characters linearly
+         * Sorting BigO (n log n)
+         * Comparing BigO (n)
+         * Overall BigO (n log n) */
         if (inputString.length() == checkThisWithInputString.length()) {
             char[] inputOneArray = inputString.toLowerCase().toCharArray();
             char[] inputTwoArray = checkThisWithInputString.toLowerCase().toCharArray();
@@ -79,6 +109,9 @@ public class BCheckPermutations {
     }
 
     public static void usingString(String inputString, String checkThisWithInputString) {
+        /* In this we are comparing the string with another string and if found we are removing the
+         * character from both the strings and then continuing until one of the string becomes empty
+         * and check if both are empty to determine there are a permutation. */
         int i = 0;
         int j = 0;
         while (!inputString.equalsIgnoreCase("") && !checkThisWithInputString.equalsIgnoreCase("")
