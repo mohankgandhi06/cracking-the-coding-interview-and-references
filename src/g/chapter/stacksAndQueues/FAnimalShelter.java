@@ -1,5 +1,7 @@
 package g.chapter.stacksAndQueues;
 
+import java.util.LinkedList;
+
 public class FAnimalShelter {
     /* Question:
      Animal Shelter: An animal shelter, which holds only dogs and cats, operates on a strictly "first in first out" basis.
@@ -23,12 +25,92 @@ public class FAnimalShelter {
         animalShelter.getQueue().enqueue("Mikey", "Cat");
         //animalShelter.getQueue().dequeue();
         //animalShelter.getQueue().dequeue();
-        //animalShelter.dequeueCat();
+        animalShelter.dequeueCat();
         animalShelter.show();
         System.out.println("Peek Value: " + animalShelter.getQueue().peek().getName() + " (" + animalShelter.getQueue().peek().getType() + ")");
     }
 }
 
+/* Optimal Implementation */
+class ShelterOptimal {
+    LinkedList<Dog> dogs = new LinkedList<>();
+    LinkedList<Cat> cats = new LinkedList<>();
+    private int order = 0;
+
+    public void enqueue(Animal animal) {
+        animal.setOrder(order);
+        order++;
+        if (animal instanceof Dog) {
+            dogs.addLast((Dog) animal);
+        } else if (animal instanceof Cat) {
+            cats.addLast((Cat) animal);
+        }
+    }
+
+    public Animal dequeAny() {
+        //Since we can dequeue any and it has to be the oldest
+        // we can peek through each list and check which one is old
+        // before we do this we are also checking if one of the list is
+        // empty. If so we can just return the other queue's first element
+        if (dogs.isEmpty()) {
+            return dequeueCats();
+        } else if (cats.isEmpty()) {
+            return dequeDogs();
+        }
+
+        Dog dog = dogs.peek();
+        Cat cat = cats.peek();
+        if (dog.isOlderThan(cat)) {
+            return dequeDogs();
+        } else {
+            return dequeueCats();
+        }
+    }
+
+    public Dog dequeDogs() {
+        return dogs.poll();
+    }
+
+    public Cat dequeueCats() {
+        return cats.poll();
+    }
+}
+
+abstract class Animal {
+    private int order;
+    protected String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public boolean isOlderThan(Animal animal) {
+        //For the animal to be older its order has to be less than the other
+        return this.order < animal.getOrder();
+    }
+}
+
+class Dog extends Animal {
+    public Dog(String name) {
+        super(name);
+    }
+}
+
+class Cat extends Animal {
+    public Cat(String name) {
+        super(name);
+    }
+}
+
+/* Earlier Implementation */
 class AnimalShelter {
     private PetQueue queue;
     private PetQueue temporaryQueue;

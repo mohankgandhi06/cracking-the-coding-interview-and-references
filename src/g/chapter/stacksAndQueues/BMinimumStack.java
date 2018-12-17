@@ -1,14 +1,17 @@
 package g.chapter.stacksAndQueues;
 
+import java.util.Stack;
+
 public class BMinimumStack {
 
     /* Question:
      Stack Min: How would you design a stack which in addition to push and pop has a function min which returns
-     the minimum? push, pop and min should all operate in O(1) time*/
+     the minimum? push, pop and min should all operate in O(1) time */
 
     /*LLT means Linked List Technique and PST Previous State Technique*/
     public static void main(String[] args) {
-        MinStack minStack = new MinStack(10);
+        /* Linked List Technique */
+        /*MinStack minStack = new MinStack(10);
         minStack.pushLLT(9);
         minStack.pushLLT(7);
         minStack.pushLLT(1);
@@ -22,7 +25,7 @@ public class BMinimumStack {
         showStackLLT(minStack);
         showMinimumListLLT(minStack);
 
-        /* Previous State Technique */
+        *//* Previous State Technique *//*
         minStack.pushPST(9);
         minStack.pushPST(8);
         minStack.pushPST(7);
@@ -37,9 +40,24 @@ public class BMinimumStack {
         System.out.println("");
         showStackPST(minStack);
         System.out.println("__________________");
-        System.out.println("Minimum Value is: " + minStack.minPST());
+        System.out.println("Minimum Value is: " + minStack.minPST());*/
+
+        /* Optimal Implementations */
+        MinimumStackOptimal stackOptimal = new MinimumStackOptimal();
+        stackOptimal.push(10);
+        stackOptimal.push(4);
+        stackOptimal.push(5);
+        stackOptimal.push(3);
+        stackOptimal.pop();
+        stackOptimal.push(1);
+        /*stackOptimal.pop();*/
+        stackOptimal.push(2);
+        stackOptimal.pop();
+        stackOptimal.push(6);
+        System.out.println("Minimum: " + stackOptimal.min());
     }
 
+    /* Earlier Implementations */
     public static void showStackLLT(MinStack minStack) {
         for (int i = 0; i < minStack.getArray().length; i++) {
             System.out.println("-> " + minStack.getArray()[ i ]);
@@ -243,5 +261,41 @@ class StackPST {
 
     public void setMinimumIfDataGetsRemoved(int minimumIfDataGetsRemoved) {
         this.minimumIfDataGetsRemoved = minimumIfDataGetsRemoved;
+    }
+}
+
+class MinimumStackOptimal extends Stack<Integer> {
+    Stack<Integer> minimumStack;
+
+    public MinimumStackOptimal() {
+        minimumStack = new Stack<Integer>();
+    }
+
+    public Integer push(Integer item) {
+        if (item <= min()) {
+            minimumStack.push(item);
+        }
+        return super.push(item);
+    }
+
+    public Integer pop() {
+        //After Popping the value we are only checking if the current min is equal to
+        // the element and removing it. In this case we might think what if the element is a
+        // minimum which will be found after the current minimum. But such a case never occurs
+        // since it is a stack only the top most element can be removed and if it was a minimum
+        // then its entry would already have been removed.
+        Integer popped = super.pop();
+        if (popped == min()) {
+            minimumStack.pop();
+        }
+        return popped;
+    }
+
+    public int min() {
+        if (minimumStack.isEmpty()) {
+            return Integer.MAX_VALUE;
+        } else {
+            return minimumStack.peek();
+        }
     }
 }

@@ -1,12 +1,14 @@
 package g.chapter.stacksAndQueues;
 
+import java.util.Stack;
+
 public class ESortStack {
     /*Question:
      Sort Stack: Write a program to sort a stack such that the smallest items are othe top. You can use
      additional temporary stack, but you may not copy the elements into any other data structure
      (such as an array).The stack supports push, pop, peek, isEmpty*/
     public static void main(String[] args) {
-        SortThisStack sortThisStack = new SortThisStack(10);
+        /*SortThisStack sortThisStack = new SortThisStack(10);
         //sortThisStack.getInputStack().setArray(new int[]{9, 2, 8, 5, 6, 7, 3, 1});
         sortThisStack.getInputStack().push(7);
         sortThisStack.getInputStack().push(2);
@@ -21,11 +23,64 @@ public class ESortStack {
         System.out.println("Peek value: " + sortThisStack.getInputStack().peek());
         sortThisStack.sortThisStack();
         //The sorted Stack is the HeavierBelowStack second column in the output
+        sortThisStack.show();*/
+        SortTheStackOptimal sortThisStack = new SortTheStackOptimal();
+        //sortThisStack.getInputStack().setArray(new int[]{9, 2, 8, 5, 6, 7, 3, 1});
+        sortThisStack.inputStack.push(7);
+        sortThisStack.inputStack.push(2);
+        sortThisStack.inputStack.push(5);
+        sortThisStack.inputStack.push(8);
+        sortThisStack.inputStack.push(6);
+        sortThisStack.inputStack.push(3);
+        sortThisStack.inputStack.push(1);
+        sortThisStack.inputStack.push(9);
+        //sortThisStack.inputStack.pop();
+        System.out.println("Input Stack");
+        sortThisStack.show();
+        sortThisStack.sort();
+        System.out.println("Sorted Stack");
         sortThisStack.show();
     }
 }
 
+/* Optimal Implementation */
+class SortTheStackOptimal {
+    public Stack<Integer> inputStack;
+    private Stack<Integer> sortedStack;
+    private Integer temporaryData;
+
+    public SortTheStackOptimal() {
+        this.inputStack = new Stack<>();
+        this.sortedStack = new Stack<>();
+    }
+
+    public void sort() {
+        while (!inputStack.isEmpty()) {
+            temporaryData = inputStack.pop();
+            while (!sortedStack.isEmpty() && sortedStack.peek() > temporaryData) {
+                inputStack.push(sortedStack.pop());
+            }
+            sortedStack.push(temporaryData);
+        }
+        while (!sortedStack.isEmpty()) {
+            inputStack.push(sortedStack.pop());
+        }
+    }
+
+    public void show() {
+        for (Integer i : inputStack) {
+            System.out.println("- " + i);
+        }
+    }
+}
+
+/* Earlier Implementations */
 class SortThisStack {
+    /* It has been stated that we can use "an" additional temporary stack, but
+     * not other data structure. So the assumption has been made that two
+     * temporary stacks can be used. But actually it can be achieved by using
+     * only one additional stack and a temporary location for the element to
+     * be placed. Refer the Optimal Implementation */
     private StackForSorting inputStack;
     private StackForSorting heavierBelowStack;
     private StackForSorting lighterBelowStack;
