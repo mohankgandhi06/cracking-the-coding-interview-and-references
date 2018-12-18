@@ -5,7 +5,8 @@ public class EDenormalization {
     What is Denormalization? Explain the pros and cons */
     /*
     Normalization:
-    Normalized databases fair very well under conditions where the applications are write-intensive and the write-load is more than the read-load.
+    Normalized databases fair very well under conditions where the applications are write-intensive
+    and the write-load is more than the read-load.
 
     Normalization is concept of modularizing the table (i.e. making the table as
     simple as possible by separating the tables if there is no need for them exist
@@ -13,7 +14,7 @@ public class EDenormalization {
     e.g. Suppose we are working on Contacts of a person. So we would require the
     Person table where we can put all the details like personID, personFirstName,
     personLastName, mailID, mobileNumber, landlineNumber. Now suppose if the person
-    has more than one mailID, lets say one. In this case if we are going to create
+    has more than one mailID, lets say two. In this case if we are going to create
     a new column mailIDTwo, then there will be some null values for the person
     who are having only one emailID, and apart from null values what if one another
     person has a few more emailID. We can't go on and on by creating columns.

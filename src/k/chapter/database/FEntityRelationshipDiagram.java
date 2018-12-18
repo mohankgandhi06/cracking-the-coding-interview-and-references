@@ -24,6 +24,7 @@ public class FEntityRelationshipDiagram {
      *   - PersonID
      *   - CompanyID
      *   - Degree*
+     *   - Experience
      *   - JobRole
      *   - Salary
      *   - DateOfJoining

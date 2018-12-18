@@ -92,7 +92,7 @@ COUNT(Apartments.BuildingID) Count FROM Requests INNER JOIN Apartments
 ON Requests.AptID = Apartments.AptID WHERE Requests.Status = 'Open'
 GROUP BY Apartments.BuildingID;
 
-SELECT Buildings.BuildingID, Buildings.BuildingName, BuildingsWithOpenRequest.Number
+SELECT Buildings.BuildingID, Buildings.BuildingName, IFNULL(BuildingsWithOpenRequest.Number,0) OpenRequests
 FROM Buildings LEFT OUTER JOIN
 (SELECT Requests.AptID, Requests.Status, Apartments.BuildingID BuildingID,
 COUNT(Apartments.BuildingID) Number FROM Requests INNER JOIN Apartments
