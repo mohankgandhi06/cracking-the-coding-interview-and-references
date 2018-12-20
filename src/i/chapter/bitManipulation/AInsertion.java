@@ -17,11 +17,24 @@ public class AInsertion {
         int m = Integer.parseInt("10011", 2);
 
         System.out.println(Integer.toBinaryString(n) + " : Before Insertion");
-        int result = insert(n, m, i, j);
+        int result = insertOptimal(n, m, i, j);
         System.out.println(Integer.toBinaryString(result) + " : After Insertion");
     }
 
+    /* Optimal Implementation */
+    private static int insertOptimal(int n, int m, int i, int j) {
+        //Clear out the bits from i through j
+        int left = -1 << (j + 1);
+        int right = (1 << i) - 1;
+        int mask = left | right;
+        //Move the integer m through the bits as required and perform or operation
+        return (n & mask) | (m << i);
+    }
+
+    /* Earlier Implementation */
     private static int insert(int n, int m, int i, int j) {
+        /* In this approach we didn't take into account the clearing of bits because if the shifting digit
+         * contains 0 and the N is having 1 then or operation will return 1 instead of setting it to 0 */
         int intermediary = (n & (1 << i) - 1) | (n & (-1 << (j + 1)));
         /*System.out.println(Integer.toBinaryString(intermediary));*/
         int shifterM = m << i;

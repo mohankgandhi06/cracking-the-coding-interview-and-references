@@ -18,6 +18,11 @@ public class EDebugger {
         //A = 1000, B should be equal to 0111 only then they will become 0000
         //A = 1010, B = 1001 then it will become 1000 once the bitwise and is executed, so only the power of 2 will be
         // satisfying these criteria. i.e.,this method checks if it is a power of two
+        // Why it is only power of two is becaues of the fact that a number and its preceeding number used to
+        // perform bitwise and and say for example we are using 9 and its previous number 8 for bitwise and
+        // 1001 and 1000. since they are having common it will fail, the only case it will not fail is that
+        // when all the previous number's previos digits are 1's which will only occur for powers of two
+        // 2^0 = 1, 2^1 = 2....
         int a = n - 1;
         System.out.println(Integer.toBinaryString(a));
         int b = n & a;
