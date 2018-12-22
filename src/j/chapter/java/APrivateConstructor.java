@@ -30,6 +30,9 @@ public class APrivateConstructor {
         System.out.println("After Final Again Calling Changed Singleton: " + changedSingleton.getTheOne());
 
         singleton.printOut("Finally I understand It :)");
+
+        SingletonClass first = SingletonClass.getInstance();
+        System.out.println(first.name);
     }
 }
 
@@ -65,5 +68,22 @@ class Singleton {
 
     public void setTheOne(String theOne) {
         this.theOne = theOne;
+    }
+}
+
+class SingletonClass {
+
+    public static SingletonClass instance = null;
+    public String name = "Ajax";
+
+    private SingletonClass() {
+
+    }
+
+    public static SingletonClass getInstance() {
+        if (instance == null) {
+            instance = new SingletonClass();
+        }
+        return instance;
     }
 }

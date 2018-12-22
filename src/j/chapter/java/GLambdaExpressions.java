@@ -74,6 +74,19 @@ public class GLambdaExpressions {
 
         String continent = "Asia";
         System.out.println("Population of " + continent + " is: " + continentalPopulation.getPopulation(world, continent));
+
+        BigDecimal population = getPopulationOfContinent(world, "North America");
+        System.out.println("Population of North America is: " + population);
+    }
+
+    private static BigDecimal getPopulationOfContinent(List<Country> countriesList, String continent) {
+        BigDecimal temp = new BigDecimal(0);
+        BigDecimal population = countriesList
+                .stream()
+                .filter(country -> country.getContinent().equalsIgnoreCase(continent))
+                .map(country -> country.getPopulation())
+                .reduce(temp, (a, b) -> a.add(b));
+        return population;
     }
 }
 

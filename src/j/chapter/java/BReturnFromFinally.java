@@ -21,6 +21,7 @@ public class BReturnFromFinally {
 class ImplicitException extends Exception {
     public static Exception throwException() {
         Exception e = new Exception();
-        return e;
+        return e;//Here replace with null and check. It will go through the finally
+        // unless the thread is killed or Java Virtual Machine terminates before it
     }
 }

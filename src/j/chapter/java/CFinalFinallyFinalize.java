@@ -27,7 +27,7 @@ public class CFinalFinallyFinalize {
         /* This will be called just before the garbage collection */
         /* Note: This method is deprecated from Java 9 onwards */
         System.out.println();
-        System.out.println("Avenger's Infinity war spoiler's ahead:  ");
+        System.out.println("Avenger's Infinity war spoiler's ahead:  if it is not revealed it means object is not null and it cannot be called for GC");
         ToExplainFinalize spiderman = new ToExplainFinalize("Spiderman: I don't want to die...");
         spiderman = null;
         System.gc();
