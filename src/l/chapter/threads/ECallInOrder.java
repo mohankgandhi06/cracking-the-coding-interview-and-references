@@ -6,9 +6,9 @@ import java.util.concurrent.TimeUnit;
 public class ECallInOrder {
     public static void main(String[] args) {
         Foo instance = new Foo();
-        new FirstThread(instance);
-        new SecondThread(instance);
         new ThirdThread(instance);
+        new SecondThread(instance);
+        new FirstThread(instance);
     }
 }
 

@@ -14,7 +14,7 @@ public class DDeadLockFreeClass {
     public static void main(String[] args) {
         Lock a = new Lock(new int[]{1, 2, 3, 4});
         Lock b = new Lock(new int[]{1, 3, 5});
-        Lock c = new Lock(new int[]{7, 5, 9, 2});
+        Lock c = new Lock(new int[]{7, 5, 9});
 
         List<Lock> lockList = new ArrayList<>();
         lockList.add(a);

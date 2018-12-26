@@ -44,8 +44,8 @@ class MethodThread extends Thread {
     @Override
     public void run() {
         System.out.println(Thread.currentThread().getName() + " is waiting...");
-        //phaser.arriveAndAwaitAdvance();
-        System.out.println(Thread.currentThread().getName() + " both of them arrived");
+        phaser.arriveAndAwaitAdvance();
+        //System.out.println(Thread.currentThread().getName() + " both of them arrived");
         instance.methodA();
         instance.methodB();
         // This is to test the second part of the question
