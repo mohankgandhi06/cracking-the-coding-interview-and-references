@@ -1,7 +1,5 @@
 package r.chapter.hardDifficulty;
 
-import java.util.Random;
-
 public class BShuffle {
 
     public Deck deck;
@@ -21,12 +19,17 @@ public class BShuffle {
 
     private void shuffle() {
         for (int i = 0; i < this.deck.cards.length; i++) {
-            Random random = new Random();
-            int x = random.nextInt(52);
+            /*Random random = new Random();
+            int x = random.nextInt(52);*/
+            int x = fairRandom(0, i);
             Card temp = this.deck.cards[ x ];
             this.deck.cards[ x ] = this.deck.cards[ i ];
             this.deck.cards[ i ] = temp;
         }
+    }
+
+    private int fairRandom(int lower, int higher) {
+        return lower + (int) (Math.random() * (higher - lower + 1));
     }
 
     private void showDeck() {
