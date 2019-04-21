@@ -62,7 +62,7 @@ public class PTheMasseuse {
         game.solveWithMemoization(input);
     }
 
-    private int solveWithMemoization(int[] input) {
+    private void solveWithMemoization(int[] input) {
         int total = 0;
         for (int i : input) {
             total += i;
@@ -70,7 +70,6 @@ public class PTheMasseuse {
         Integer[][] memo = new Integer[ input.length + 1 ][ total ];
         int maxHonor = solve(input, 0, 0, memo);
         System.out.println("Memoization - Time that masseuse can honor: " + maxHonor);
-        return -1;
     }
 
     private int solve(int[] input, int currentIndex, int currentSum, Integer[][] memo) {
@@ -84,10 +83,9 @@ public class PTheMasseuse {
         return memo[ currentIndex ][ currentSum ];
     }
 
-    private int solveWithBruteForce(int[] input) {
+    private void solveWithBruteForce(int[] input) {
         int maxHonor = solve(input, 0, 0);
         System.out.println("Brute Force - Time that masseuse can honor: " + maxHonor);
-        return -1;
     }
 
     private int solve(int[] input, int currentIndex, int currentSum) {
